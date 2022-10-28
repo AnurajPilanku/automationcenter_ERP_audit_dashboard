@@ -31,14 +31,12 @@ today=str(datetime.datetime.today().date())
 passwordUpdate='''"C:\Program Files (x86)\CyberArk\ApplicationPasswordSdk\CLIPasswordSDK.exe>" GetPassword /p AppDescs.AppID=APP_ADOE-CAC /p Query="Safe=WW-TTS-EES-AUTOCNTR-AD;Folder=Root;Object=mmm.com_{userid}" /o Password'''
 
 '''
-               File Unzip
-
+              Monitor Mail
 '''
 class ProxyAdapter(requests.adapters.HTTPAdapter):
     def send(self, *args, **kwargs):
         kwargs["proxies"] = ProxyAdapter.proxies
         return super(ProxyAdapter, self).send(*args, **kwargs)
-
 
 class MonitorMail:
     def _connect(self):  # (self, aeuser, aepassword, aeci, aeparameters):
@@ -113,7 +111,10 @@ class erpaudit:
     def run(self):
         runfile=MonitorMail()
         return runfile.connectFolder()
+'''
+               File Unzip
 
+'''
 def failure():
     print("Files Absent,Downloading Failed")
     return "Files Absent,Downloading Failed"
@@ -401,9 +402,7 @@ def deleteFiles():
     for file in os.listdir(ziped):
         os.remove(os.path.join(ziped,file))
 
-'''
-              Monitor Mail
-'''
+
 
 
 
