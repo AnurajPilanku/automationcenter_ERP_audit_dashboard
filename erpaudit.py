@@ -31,12 +31,14 @@ today=str(datetime.datetime.today().date())
 passwordUpdate='''"C:\Program Files (x86)\CyberArk\ApplicationPasswordSdk\CLIPasswordSDK.exe>" GetPassword /p AppDescs.AppID=APP_ADOE-CAC /p Query="Safe=WW-TTS-EES-AUTOCNTR-AD;Folder=Root;Object=mmm.com_{userid}" /o Password'''
 
 '''
-              Monitor Mail
+               File Unzip
+
 '''
 class ProxyAdapter(requests.adapters.HTTPAdapter):
     def send(self, *args, **kwargs):
         kwargs["proxies"] = ProxyAdapter.proxies
         return super(ProxyAdapter, self).send(*args, **kwargs)
+
 
 class MonitorMail:
     def _connect(self):  # (self, aeuser, aepassword, aeci, aeparameters):
@@ -111,10 +113,14 @@ class erpaudit:
     def run(self):
         runfile=MonitorMail()
         return runfile.connectFolder()
-'''
-               File Unzip
+       
+def maildetails():
+    detailsPath=r"\\acdev01\3M_CAC\ERP_Quality_Review\auditVerification\maildetails.xlsx"
+    data=pd.read_excel(detailsPath,engine="openpyxl")
+    leads=",".join(data[data.columns[0]].dropna().tolist())
+    carbon=",".join(data[data.columns[1]].dropna().tolist())
+    return {"toaddr":leads,"ccaddr":carbon}
 
-'''
 def failure():
     print("Files Absent,Downloading Failed")
     return "Files Absent,Downloading Failed"
@@ -220,8 +226,8 @@ def CreateDashboard():
     <tr bgcolor="#D3D3D3">
     <td rowspan="2" style="text-align:center;" >SI.No</td>
     <td rowspan="2" style="text-align:center;" >Process Area</td>
-    <td colspan="3" style="text-align:center;" >Quality Review status as on {today}</td>
-    </tr>'''.format(today=today)
+    <td colspan="{titlecol}" style="text-align:center;" >Quality Review status as on {today}</td>
+    </tr>'''.format(today=today,titlecol=str(len(Collection)))
     weekstart='''<tr bgcolor="#ADD8E6">'''+"\n"
     weekhtml='''<td colspan="1" style="text-align:center;">{weekname}</td>'''+"\n"
     for i in range(0,len(Collection)):
@@ -249,6 +255,7 @@ def CreateDashboard():
 '''
             Sent Mail
 '''
+mailaspects=maildetails()
 mailjsonpath=r"\\acdev01\3M_CAC\ERP_Quality_Review\auditVerification\mailinputs.json"
 mailreadjson = open(mailjsonpath)
 mailjsoninputs = json.load(mailreadjson)
@@ -257,8 +264,8 @@ bodymessage=mailjsoninputs.get("bodymessage")
 sign=mailjsoninputs.get("sign")
 email_header =mailjsoninputs.get("email_header")
 email_footer = mailjsoninputs.get("email_footer")
-to=mailjsoninputs.get("to")
-cc=mailjsoninputs.get("cc","")
+to=mailaspects.get("toaddr")#mailjsoninputs.get("to")
+cc=mailaspects.get("ccaddr")#mailjsoninputs.get("cc","")
 bcc=mailjsoninputs.get("bcc","")
 From=mailjsoninputs.get("From")
 mailsubject=mailjsoninputs.get("mailsubject")
@@ -402,9 +409,11 @@ def deleteFiles():
     for file in os.listdir(ziped):
         os.remove(os.path.join(ziped,file))
 
+'''
+              Monitor Mail
+'''
 
-
-
+erpaudit().run()
 
             
 
