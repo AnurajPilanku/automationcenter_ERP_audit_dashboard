@@ -1,0 +1,25 @@
+{
+  "packname": "automationcenter_audit_dashboard",
+  "version": "1.0",
+  "usagetype": "2",
+  "source": "1",
+  "workflows": [
+    {
+      "name": "automationcenter_audit_dashboard.auditstatus",
+      "filename": "automationcenter_audit_dashboard\\auditstatus.robot",
+      "hash": "E42B98032F3186355CE6BA6C2C38CB7E48775E587B8769F0CAA5FA2F0B17F481"
+    }
+  ],
+  "scripts": [
+    {
+      "name": "custom_library",
+      "filename": "automationcenter_audit_dashboard\\lib\\custom_library.py",
+      "hash": "26881FB203D7F160EBFA3AC0F91EA107E26EB36226F3B1F19B66A62B10F2B0BC"
+    },
+    {
+      "name": "erpaudit",
+      "filename": "automationcenter_audit_dashboard\\lib\\erpaudit.py",
+      "hash": "FE3BA52AC9AD3668796C6E72E015C0F019B24562BB02C327BD091EB5A1962D4D"
+    }
+  ]
+}
