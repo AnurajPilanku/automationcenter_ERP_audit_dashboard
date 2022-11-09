@@ -100,7 +100,9 @@ Log In
     ${uploadfolder}=    sharepointfileupload    ${qualitypath}
     sleep    10s
     ${saverange}=    writetonote    ${lastweekrangefile}    ${rangelimit}
-    ${output}=    Set Variable    ${rangelimit}
+    ${strrangelimit}=    Convert To String    ${rangelimit}
+    ${combined}=    Catenate    Range    limit    of    Files:    ${strrangelimit}
+    ${output}=    Set Variable    ${combined}
     Set Global Variable    ${output}
 
 Update AutomationCenter Output
