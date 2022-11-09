@@ -30,7 +30,12 @@ class fileUploadWindow:
         MainApplicationName="Project Alpine Execution"       
         firstexe=self.getPath(qualityPath)#r"\\acdev01\3M_CAC\ERP_Quality_Review\sharepointUpload")#"\\\\acdev01\\3M_CAC\\AOMS_user_role"#"\\acdev01\3M_CAC\AOMS_user_role" 
         path=firstexe.get("fpaths")
-        flength=firstexe.get("fileLength")
+        flength=""
+        lengt=firstexe.get("fileLength")
+        if lengt in ['1',1]:
+            flength+='a'
+        else:
+            flength+=str(lengt)   
         main_app = Application(backend="uia").connect(title_re=".*%s.*" % MainApplicationName, control_type="Window")
         app_dialog =main_app.top_window()
         app_dialog.set_focus()
